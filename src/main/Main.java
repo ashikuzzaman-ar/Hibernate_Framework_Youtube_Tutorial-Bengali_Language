@@ -1,7 +1,10 @@
 package main;
 
-import db.config.ConnectToDatabase;
-import java.sql.ResultSet;
+import db.models.UserInfo;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
 
 /**
  *
@@ -9,31 +12,38 @@ import java.sql.ResultSet;
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static ConnectToDatabase connectToDatabase = new ConnectToDatabase("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/studevs", "root", "studevsdb");
+    private static final SessionFactory sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+    private static Session session;
+    private static Transaction transaction;
 
     public static void main(String[] args) {
         // TODO code application logic here
 
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUsername("test_username_2");
+        userInfo.setPassword("test_password_2");
+        userInfo.setEmail("test_email_2");
+        
+        session = sessionFactory.openSession();
+        transaction = session.beginTransaction();
+        
         try {
 
-            String sql;
-            ResultSet resultSet;
+            session.save(userInfo);
 
-            for (int i = 0; i < 5; i++) {
-
-                sql = "INSERT INTO USERS (NAME, EMAIL) VALUES('Test " + i + "', 'test" + i + "@gmail.com')";
-                connectToDatabase.getResult(sql);
-            }
-
+            transaction.commit();
         } catch (Exception e) {
 
+            if(transaction != null){
+                
+                transaction.rollback();
+            }
             throw new ExceptionInInitializerError(e);
         } finally {
 
-            connectToDatabase.closeConnection();
+            session.close();
         }
+
+        sessionFactory.close();
     }
 }
