@@ -19,21 +19,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "USER_INFO")
-public class UserInfo implements Serializable{
-    
+public class UserInfo implements Serializable {
+
     @Id
     @GeneratedValue
     @Column(name = "ID")
-    private Long id ;
-    
+    private Long id;
+
     @Column(name = "USERNAME", length = 50)
-    private String username ;
-    
+    private String username;
+
     @Column(name = "PASSWORD")
-    private String password ;
-    
+    private String password;
+
     @Column(name = "EMAIL")
-    private String email ;
+    private String email;
 
     @Override
     public int hashCode() {
