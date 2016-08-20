@@ -25,9 +25,9 @@ public class Main implements SessionFactoryProvider {
 
             transaction = session.beginTransaction();
 
-            userInfo = (UserInfo) session.get(UserInfo.class, 8L);
-//            userInfo = new UserInfo();
-//            userInfo.setId(10L);
+//            userInfo = (UserInfo) session.get(UserInfo.class, 8L);
+            userInfo = new UserInfo();
+            userInfo.setId(10L);
 
             session.delete(userInfo);
 
