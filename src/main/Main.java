@@ -25,15 +25,14 @@ public class Main implements SessionFactoryProvider {
 
             transaction = session.beginTransaction();
 
-            userInfo = (UserInfo) session.get(UserInfo.class, 5L);
+//            userInfo = (UserInfo) session.get(UserInfo.class, 880L);
+            userInfo = new UserInfo();
+            userInfo.setId(10L);
 
-            if (userInfo != null) {
+            userInfo.setPassword("changed password");
+            userInfo.setUsername("changed username");
 
-                System.out.println("ID: " + userInfo.getId());
-                System.out.println("Username: " + userInfo.getUsername());
-                System.out.println("Password: " + userInfo.getPassword());
-                System.out.println("Email: " + userInfo.getEmail());
-            }
+            session.update(userInfo);
 
             transaction.commit();
         } catch (Exception e) {
@@ -46,6 +45,14 @@ public class Main implements SessionFactoryProvider {
         } finally {
 
             session.close();
+        }
+
+        if (userInfo != null) {
+
+            System.out.println("ID: " + userInfo.getId());
+            System.out.println("Username: " + userInfo.getUsername());
+            System.out.println("Password: " + userInfo.getPassword());
+            System.out.println("Email: " + userInfo.getEmail());
         }
 
         SESSION_FACTORY.close();
