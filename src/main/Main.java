@@ -2,6 +2,8 @@ package main;
 
 import db.config.SessionFactoryProvider;
 import db.models.UserInfo;
+import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -25,14 +27,18 @@ public class Main implements SessionFactoryProvider {
 
             transaction = session.beginTransaction();
 
-            userInfo = (UserInfo) session.get(UserInfo.class, 8L);
+            String hql = "FROM UserInfo UI WHERE UI.username LIKE 'test_username_2%'";
+//            userInfo = (UserInfo) session.get(UserInfo.class, 8L);
 //            userInfo = new UserInfo();
 //            userInfo.setId(10L);
 
-            userInfo.setPassword("changed password");
-            userInfo.setUsername("changed username");
+            Query query = session.createQuery(hql);
+            List<UserInfo> userInfos = query.list();
 
-            session.update(userInfo);
+            for(UserInfo ui: userInfos){
+                
+                session.delete(ui);
+            }
 
             transaction.commit();
         } catch (Exception e) {
@@ -47,13 +53,13 @@ public class Main implements SessionFactoryProvider {
             session.close();
         }
 
-        if (userInfo != null) {
-
-            System.out.println("ID: " + userInfo.getId());
-            System.out.println("Username: " + userInfo.getUsername());
-            System.out.println("Password: " + userInfo.getPassword());
-            System.out.println("Email: " + userInfo.getEmail());
-        }
+//        if (userInfo != null) {
+//
+//            System.out.println("ID: " + userInfo.getId());
+//            System.out.println("Username: " + userInfo.getUsername());
+//            System.out.println("Password: " + userInfo.getPassword());
+//            System.out.println("Email: " + userInfo.getEmail());
+//        }
 
         SESSION_FACTORY.close();
     }
