@@ -9,7 +9,7 @@
         <property name="hibernate.connection.password">studevsdb</property>
     
         <property name="hibernate.show_sql">true</property>
-        <!--<property name="hibernate.hbm2ddl.auto">create</property>-->
+        <property name="hibernate.hbm2ddl.auto">create</property>
         
         <mapping class="db.models.UserInfo"/>
     </session-factory>

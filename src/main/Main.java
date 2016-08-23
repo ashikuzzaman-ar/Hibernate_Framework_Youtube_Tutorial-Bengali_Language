@@ -1,6 +1,7 @@
 package main;
 
 import db.config.SessionFactoryProvider;
+import db.models.Test;
 import db.models.UserInfo;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,12 +26,26 @@ public class Main implements SessionFactoryProvider {
 
             transaction = session.beginTransaction();
 
-//            userInfo = (UserInfo) session.get(UserInfo.class, 8L);
-//            userInfo = new UserInfo();
-//            userInfo.setId(10L);
+            userInfo = new UserInfo();
+            userInfo.setEmail("e_1");
+            userInfo.setPassword("p_1");
+            userInfo.setUsername("u_1");
+            
+            String[] phones = new String[3];
+            phones[0] = "01717000000";
+            phones[0] = "01617000000";
+            phones[0] = "01817000000";
+            
+            userInfo.setPhones(phones);
+            
+            Test test = new Test();
+            test.setAge(12.5D);
+            test.setIsMale(Boolean.FALSE);
+            
+            userInfo.setTest(test);
 
-            session.delete(new UserInfo().setId(11L));
-
+            session.save(userInfo);
+            
             transaction.commit();
         } catch (Exception e) {
 

@@ -34,7 +34,29 @@ public class UserInfo implements Serializable {
 
     @Column(name = "EMAIL")
     private String email;
+    
+    @Column(name = "TEST")
+    private Test test;
+    
+    @Column(name = "PHONE")
+    private String[] phones ;
 
+    public String[] getPhones() {
+        return phones;
+    }
+
+    public void setPhones(String[] phones) {
+        this.phones = phones;
+    }
+
+    public Test getTest() {
+        return test;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 5;
@@ -73,9 +95,8 @@ public class UserInfo implements Serializable {
         return id;
     }
 
-    public UserInfo setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
     public String getUsername() {
