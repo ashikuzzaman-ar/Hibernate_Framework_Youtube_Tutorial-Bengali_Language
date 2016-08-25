@@ -30,22 +30,27 @@ public class Main implements SessionFactoryProvider {
             userInfo.setEmail("e_1");
             userInfo.setPassword("p_1");
             userInfo.setUsername("u_1");
-            
-            String[] phones = new String[3];
-            phones[0] = "01717000000";
-            phones[0] = "01617000000";
-            phones[0] = "01817000000";
-            
-            userInfo.setPhones(phones);
-            
+
             Test test = new Test();
             test.setAge(12.5D);
             test.setIsMale(Boolean.FALSE);
-            
+
             userInfo.setTest(test);
 
+            UserInfo ui = new UserInfo();
+            ui.setEmail("e_2");
+            ui.setPassword("p_2");
+            ui.setUsername("u_2");
+
+            Test test1 = new Test();
+            test1.setAge(15.5D);
+            test1.setIsMale(Boolean.TRUE);
+
+            ui.setTest(test1);
+
             session.save(userInfo);
-            
+            session.save(ui);
+
             transaction.commit();
         } catch (Exception e) {
 
@@ -54,6 +59,31 @@ public class Main implements SessionFactoryProvider {
                 transaction.rollback();
             }
             throw new ExceptionInInitializerError(e);
+        } finally {
+
+            session.close();
+        }
+
+        session = SESSION_FACTORY.openSession();
+        transaction = null;
+
+        try {
+
+            transaction = session.beginTransaction();
+
+//            UserInfo ui = (UserInfo) session.get(UserInfo.class, 1L);
+            Test t = (Test) session.get(Test.class, 1L);
+
+            transaction.commit();
+
+            System.out.println("UserInfo Username: " + t.getUserInfo().getUsername());
+            System.out.println("Test Age: " + t.getAge());
+        } catch (Exception e) {
+
+            if (transaction != null) {
+
+                transaction.rollback();
+            }
         } finally {
 
             session.close();

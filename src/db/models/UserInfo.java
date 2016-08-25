@@ -7,10 +7,13 @@ package db.models;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -34,20 +37,10 @@ public class UserInfo implements Serializable {
 
     @Column(name = "EMAIL")
     private String email;
-    
-    @Column(name = "TEST")
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
     private Test test;
-    
-    @Column(name = "PHONE")
-    private String[] phones ;
-
-    public String[] getPhones() {
-        return phones;
-    }
-
-    public void setPhones(String[] phones) {
-        this.phones = phones;
-    }
 
     public Test getTest() {
         return test;
@@ -56,7 +49,7 @@ public class UserInfo implements Serializable {
     public void setTest(Test test) {
         this.test = test;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
