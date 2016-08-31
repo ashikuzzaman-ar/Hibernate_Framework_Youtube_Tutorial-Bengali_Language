@@ -6,12 +6,10 @@
 package db.models;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -19,31 +17,22 @@ import javax.persistence.Table;
  * @author ashik
  */
 @Entity
-@Table
-public class Test implements Serializable{
+@Table(name = "TEST")
+public class Test implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long id ;
+    @Column(name = "ID")
+    private Long id;
+
+    @Column(name = "AGE")
+    private Double age;
+
+    @Column(name = "IS_MALE")
+    private Boolean isMale;
 
     public Test() {
     }
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private UserInfo userInfo;
-
-    public UserInfo getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-    }
-    
-    private Double age ;
-    
-    private Boolean isMale ;
 
     public Long getId() {
         return id;

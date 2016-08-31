@@ -7,13 +7,16 @@ package db.models;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -38,16 +41,16 @@ public class UserInfo implements Serializable {
     @Column(name = "EMAIL")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private Test test;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "USER_INFO_TEST", joinColumns = {@JoinColumn(name = "USER_INFO_ID")}, inverseJoinColumns = {@JoinColumn(name = "TEST_ID")})
+    private Set<Test> tests;
 
-    public Test getTest() {
-        return test;
+    public Set<Test> getTests() {
+        return tests;
     }
 
-    public void setTest(Test test) {
-        this.test = test;
+    public void setTests(Set<Test> tests) {
+        this.tests = tests;
     }
 
     @Override
