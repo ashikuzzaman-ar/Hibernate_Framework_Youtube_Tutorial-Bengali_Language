@@ -13,6 +13,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -91,7 +92,10 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
 
             this.transaction = this.session.beginTransaction();
             this.criteria = this.session.createCriteria(UserAuthentication.class);
-            this.criteria.setProjection(Projections.avg("id"));
+            
+            this.criteria.add(Restrictions.like("username", "Changed Username"));
+            
+            this.criteria.setProjection(Projections.max("id"));
             list = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
