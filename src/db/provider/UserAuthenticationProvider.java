@@ -52,6 +52,33 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
         return this.resultList;
     }
     
+    
+    public List<UserAuthentication> whereTest(){
+        
+        this.session = SESSION_FACTORY.openSession();
+        this.transaction = null;
+        this.resultList = null;
+        try {
+            
+            this.transaction = this.session.beginTransaction();
+            this.hql = "FROM UserAuthentication UA WHERE UA.username LIKE 'Username 13%'";
+            this.query = this.session.createQuery(this.hql);
+            this.resultList = this.query.list();
+            this.transaction.commit();
+        } catch (Exception e) {
+            
+            if(this.transaction!=null){
+                
+                this.transaction.rollback();
+            }
+        }finally{
+            
+            this.session.close();
+        }
+        
+        return this.resultList;
+    }
+    
     public List selectTest(){
         
         this.session = SESSION_FACTORY.openSession();
