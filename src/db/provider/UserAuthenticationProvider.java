@@ -90,9 +90,10 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
 
             this.transaction = this.session.beginTransaction();
             this.criteria = this.session.createCriteria(UserAuthentication.class);
-//            this.criteria.add(Restrictions.between("id", 30L, 35L));
+            this.criteria.add(Restrictions.between("id", 30L, 355L));
+            this.criteria.setFirstResult(200);
+            this.criteria.setMaxResults(15);
 //            this.criteria.add(Restrictions.between("id", 300L, 305L));
-            this.criteria.add(Restrictions.and(Restrictions.between("id", 30L, 355L), Restrictions.like("username", "Username 35%")));
             this.resultList = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
