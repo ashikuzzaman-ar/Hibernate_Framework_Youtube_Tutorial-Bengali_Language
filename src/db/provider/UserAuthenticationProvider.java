@@ -8,9 +8,11 @@ package db.provider;
 import db.config.SessionFactoryProvider;
 import db.models.UserAuthentication;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -21,10 +23,11 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
     private Session session;
     private Transaction transaction;
     private Query query;
+    private Criteria criteria;
     private String hql;
     private List<UserAuthentication> resultList;
 
-    public List<UserAuthentication> fromTest() {
+    public List<UserAuthentication> fromTest() { // Criteria
 
         this.session = SESSION_FACTORY.openSession();
         this.transaction = null;
@@ -32,11 +35,8 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
         try {
 
             this.transaction = this.session.beginTransaction();
-            this.hql = "FROM UserAuthentication UA";
-            this.query = this.session.createQuery(this.hql);
-//            this.query.setFirstResult(0);
-//            this.query.setMaxResults(10);
-            this.resultList = this.query.list();
+            this.criteria = this.session.createCriteria(UserAuthentication.class);
+            this.resultList = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
 
@@ -89,10 +89,9 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
         try {
 
             this.transaction = this.session.beginTransaction();
-            this.hql = "FROM UserAuthentication UA WHERE UA.id < :ua_id";
-            this.query = this.session.createQuery(this.hql);
-            this.query.setParameter("ua_id", 15L);
-            this.resultList = this.query.list();
+            this.criteria = this.session.createCriteria(UserAuthentication.class);
+            this.criteria.add(Restrictions.eq("username", "Changed Username"));
+            this.resultList = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
 

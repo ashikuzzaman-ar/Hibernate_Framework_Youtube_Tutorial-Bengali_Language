@@ -14,7 +14,7 @@ public class Main {
 
         UserAuthenticationProvider uap = new UserAuthenticationProvider();
 
-        List<UserAuthentication> resultList = uap.limitTest();
+        List<UserAuthentication> resultList = uap.whereTest();
 
         for (UserAuthentication UA : resultList) {
 
