@@ -90,7 +90,7 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
 
             this.transaction = this.session.beginTransaction();
             this.criteria = this.session.createCriteria(UserAuthentication.class);
-            this.criteria.add(Restrictions.eq("username", "Changed Username"));
+            this.criteria.add(Restrictions.gt("id", 993L));
             this.resultList = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
