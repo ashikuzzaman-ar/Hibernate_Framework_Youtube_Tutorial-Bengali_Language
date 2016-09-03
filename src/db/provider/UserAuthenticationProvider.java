@@ -16,21 +16,21 @@ import org.hibernate.Transaction;
  *
  * @author ashik
  */
-public class UserAuthenticationProvider implements SessionFactoryProvider{
-    
+public class UserAuthenticationProvider implements SessionFactoryProvider {
+
     private Session session;
     private Transaction transaction;
     private Query query;
-    private String hql ;
-    private List<UserAuthentication> resultList ;
-    
-    public List<UserAuthentication> fromTest(){
-        
+    private String hql;
+    private List<UserAuthentication> resultList;
+
+    public List<UserAuthentication> fromTest() {
+
         this.session = SESSION_FACTORY.openSession();
         this.transaction = null;
         this.resultList = null;
         try {
-            
+
             this.transaction = this.session.beginTransaction();
             this.hql = "FROM UserAuthentication UA";
             this.query = this.session.createQuery(this.hql);
@@ -39,27 +39,26 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
             this.resultList = this.query.list();
             this.transaction.commit();
         } catch (Exception e) {
-            
-            if(this.transaction!=null){
-                
+
+            if (this.transaction != null) {
+
                 this.transaction.rollback();
             }
-        }finally{
-            
+        } finally {
+
             this.session.close();
         }
-        
+
         return this.resultList;
     }
-    
-    
-    public List<UserAuthentication> whereTest(){
-        
+
+    public List<UserAuthentication> whereTest() {
+
         this.session = SESSION_FACTORY.openSession();
         this.transaction = null;
         this.resultList = null;
         try {
-            
+
             this.transaction = this.session.beginTransaction();
             this.hql = "FROM UserAuthentication UA WHERE UA.id < :ua_id";
             this.query = this.session.createQuery(this.hql);
@@ -67,25 +66,26 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
             this.resultList = this.query.list();
             this.transaction.commit();
         } catch (Exception e) {
-            
-            if(this.transaction!=null){
-                
+
+            if (this.transaction != null) {
+
                 this.transaction.rollback();
             }
-        }finally{
-            
+        } finally {
+
             this.session.close();
         }
-        
+
         return this.resultList;
     }
-    public Boolean updateTest(){
-        
+
+    public Boolean updateTest() {
+
         this.session = SESSION_FACTORY.openSession();
         this.transaction = null;
         Boolean isUpdates = false;
         try {
-            
+
             this.transaction = this.session.beginTransaction();
             this.hql = "UPDATE UserAuthentication UA SET UA.username = :ua_un WHERE ( UA.id < :ua_id1 AND UA.id > :ua_id2 )";
             this.query = this.session.createQuery(this.hql);
@@ -96,29 +96,28 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
             this.transaction.commit();
             isUpdates = true;
         } catch (Exception e) {
-            
-            if(this.transaction!=null){
-                
+
+            if (this.transaction != null) {
+
                 this.transaction.rollback();
             }
-            
+
             throw new ExceptionInInitializerError(e);
-        }finally{
-            
+        } finally {
+
             this.session.close();
         }
-        
+
         return isUpdates;
     }
-    
-    
-    public Boolean deleteTest(){
-        
+
+    public Boolean deleteTest() {
+
         this.session = SESSION_FACTORY.openSession();
         this.transaction = null;
         Boolean isUpdates = false;
         try {
-            
+
             this.transaction = this.session.beginTransaction();
             this.hql = "DELETE FROM UserAuthentication UA WHERE ( UA.id <= :ua_id1 AND UA.id >= :ua_id2 )";
             this.query = this.session.createQuery(this.hql);
@@ -128,44 +127,73 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
             this.transaction.commit();
             isUpdates = true;
         } catch (Exception e) {
-            
-            if(this.transaction!=null){
-                
+
+            if (this.transaction != null) {
+
                 this.transaction.rollback();
             }
-            
+
             throw new ExceptionInInitializerError(e);
-        }finally{
-            
+        } finally {
+
             this.session.close();
         }
-        
+
         return isUpdates;
     }
     
-    public List selectTest(){
-        
+    
+    public List aggrTest() {
+
         this.session = SESSION_FACTORY.openSession();
         this.transaction = null;
         List list = null;
         try {
-            
+
+            this.transaction = this.session.beginTransaction();
+            this.hql = "SELECT AVG(UA.id) FROM UserAuthentication UA";
+            this.query = this.session.createQuery(this.hql);
+            list = this.query.list();
+            this.transaction.commit();
+        } catch (Exception e) {
+
+            if (this.transaction != null) {
+
+                this.transaction.rollback();
+            }
+
+            throw new ExceptionInInitializerError(e);
+        } finally {
+
+            this.session.close();
+        }
+
+        return list;
+    }
+
+    public List selectTest() {
+
+        this.session = SESSION_FACTORY.openSession();
+        this.transaction = null;
+        List list = null;
+        try {
+
             this.transaction = this.session.beginTransaction();
             this.hql = "SELECT UA.username FROM UserAuthentication UA";
             this.query = this.session.createQuery(this.hql);
             list = this.query.list();
             this.transaction.commit();
         } catch (Exception e) {
-            
-            if(this.transaction!=null){
-                
+
+            if (this.transaction != null) {
+
                 this.transaction.rollback();
             }
-        }finally{
-            
+        } finally {
+
             this.session.close();
         }
-        
+
         return list;
     }
 }
