@@ -12,8 +12,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Projections;
 
 /**
  *
@@ -82,20 +81,18 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
         return this.resultList;
     }
 
-    public List<UserAuthentication> whereTest() {
+    public List whereTest() {
 
         this.session = SESSION_FACTORY.openSession();
         this.transaction = null;
         this.resultList = null;
+        List list = null;
         try {
 
             this.transaction = this.session.beginTransaction();
             this.criteria = this.session.createCriteria(UserAuthentication.class);
-            this.criteria.add(Restrictions.between("id", 30L, 355L));
-            this.criteria.setFirstResult(200);
-            this.criteria.setMaxResults(15);
-            this.criteria.addOrder(Order.desc("id"));
-            this.resultList = this.criteria.list();
+            this.criteria.setProjection(Projections.avg("id"));
+            list = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
 
@@ -108,7 +105,7 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
             this.session.close();
         }
 
-        return this.resultList;
+        return list;
     }
 
     public Boolean updateTest() {
