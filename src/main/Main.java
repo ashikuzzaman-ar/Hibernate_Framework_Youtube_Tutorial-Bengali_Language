@@ -13,16 +13,19 @@ public class Main {
     public static void main(String[] args) {
 
         UserAuthenticationProvider uap = new UserAuthenticationProvider();
-        List<UserAuthentication> resultList = uap.whereTest();
-        
-        for(int i=0; i<resultList.size(); i++){
-            
-            System.out.println("ID: "+resultList.get(i).getId());
-            System.out.println("Username: "+resultList.get(i).getUsername());
-            System.out.println("Password: "+resultList.get(i).getPassword());
-            System.out.println("\n\n");
+        if (uap.updateTest()) {
+
+            List<UserAuthentication> resultList = uap.whereTest();
+
+            for (int i = 0; i < resultList.size(); i++) {
+
+                System.out.println("ID: " + resultList.get(i).getId());
+                System.out.println("Username: " + resultList.get(i).getUsername());
+                System.out.println("Password: " + resultList.get(i).getPassword());
+                System.out.println("\n\n");
+            }
         }
-        
+
         System.exit(0);
     }
 }

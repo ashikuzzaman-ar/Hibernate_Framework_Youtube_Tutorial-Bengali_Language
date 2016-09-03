@@ -61,10 +61,9 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
         try {
             
             this.transaction = this.session.beginTransaction();
-            this.hql = "FROM UserAuthentication UA WHERE UA.username LIKE :ua_un AND UA.id < :ua_id";
+            this.hql = "FROM UserAuthentication UA WHERE UA.id < :ua_id";
             this.query = this.session.createQuery(this.hql);
-            this.query.setParameter("ua_un", "Username 5%");
-            this.query.setParameter("ua_id", 100L);
+            this.query.setParameter("ua_id", 15L);
             this.resultList = this.query.list();
             this.transaction.commit();
         } catch (Exception e) {
@@ -79,6 +78,37 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
         }
         
         return this.resultList;
+    }
+    public Boolean updateTest(){
+        
+        this.session = SESSION_FACTORY.openSession();
+        this.transaction = null;
+        Boolean isUpdates = false;
+        try {
+            
+            this.transaction = this.session.beginTransaction();
+            this.hql = "UPDATE UserAuthentication UA SET UA.username = :ua_un WHERE ( UA.id < :ua_id1 AND UA.id > :ua_id2 )";
+            this.query = this.session.createQuery(this.hql);
+            this.query.setParameter("ua_un", "Changed Username");
+            this.query.setParameter("ua_id1", 10L);
+            this.query.setParameter("ua_id2", 5L);
+            this.query.executeUpdate();
+            this.transaction.commit();
+            isUpdates = true;
+        } catch (Exception e) {
+            
+            if(this.transaction!=null){
+                
+                this.transaction.rollback();
+            }
+            
+            throw new ExceptionInInitializerError(e);
+        }finally{
+            
+            this.session.close();
+        }
+        
+        return isUpdates;
     }
     
     public List selectTest(){
