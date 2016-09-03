@@ -111,6 +111,38 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
         return isUpdates;
     }
     
+    
+    public Boolean deleteTest(){
+        
+        this.session = SESSION_FACTORY.openSession();
+        this.transaction = null;
+        Boolean isUpdates = false;
+        try {
+            
+            this.transaction = this.session.beginTransaction();
+            this.hql = "DELETE FROM UserAuthentication UA WHERE ( UA.id <= :ua_id1 AND UA.id >= :ua_id2 )";
+            this.query = this.session.createQuery(this.hql);
+            this.query.setParameter("ua_id1", 7L);
+            this.query.setParameter("ua_id2", 4L);
+            this.query.executeUpdate();
+            this.transaction.commit();
+            isUpdates = true;
+        } catch (Exception e) {
+            
+            if(this.transaction!=null){
+                
+                this.transaction.rollback();
+            }
+            
+            throw new ExceptionInInitializerError(e);
+        }finally{
+            
+            this.session.close();
+        }
+        
+        return isUpdates;
+    }
+    
     public List selectTest(){
         
         this.session = SESSION_FACTORY.openSession();

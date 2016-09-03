@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
 
         UserAuthenticationProvider uap = new UserAuthenticationProvider();
-        if (uap.updateTest()) {
+        if (uap.deleteTest()) {
 
             List<UserAuthentication> resultList = uap.whereTest();
 
