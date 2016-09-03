@@ -95,7 +95,7 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
             
             this.criteria.add(Restrictions.like("username", "Changed Username"));
             
-            this.criteria.setProjection(Projections.max("id"));
+            this.criteria.setProjection(Projections.min("id"));
             list = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
