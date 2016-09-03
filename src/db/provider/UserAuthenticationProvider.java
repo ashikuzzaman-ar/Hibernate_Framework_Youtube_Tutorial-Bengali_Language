@@ -12,6 +12,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -93,7 +94,7 @@ public class UserAuthenticationProvider implements SessionFactoryProvider {
             this.criteria.add(Restrictions.between("id", 30L, 355L));
             this.criteria.setFirstResult(200);
             this.criteria.setMaxResults(15);
-//            this.criteria.add(Restrictions.between("id", 300L, 305L));
+            this.criteria.addOrder(Order.desc("id"));
             this.resultList = this.criteria.list();
             this.transaction.commit();
         } catch (Exception e) {
