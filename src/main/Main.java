@@ -1,6 +1,5 @@
 package main;
 
-import db.models.UserAuthentication;
 import db.provider.UserAuthenticationProvider;
 import java.util.List;
 
@@ -13,12 +12,11 @@ public class Main {
     public static void main(String[] args) {
 
         UserAuthenticationProvider uap = new UserAuthenticationProvider();
-        List<UserAuthentication> resultList = uap.fromTest();
+        List<String> resultList = uap.selectTest();
         
-        for(int i=0; i<5; i++){
+        for(int i=0; i<resultList.size(); i++){
             
-            System.out.println("Username: "+resultList.get(i).getUsername());
-            System.out.println("Password: "+resultList.get(i).getPassword());
+            System.out.println("Username: "+resultList.get(i));
             System.out.println("\n\n");
         }
         

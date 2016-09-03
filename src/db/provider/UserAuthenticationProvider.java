@@ -34,8 +34,8 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
             this.transaction = this.session.beginTransaction();
             this.hql = "FROM UserAuthentication UA";
             this.query = this.session.createQuery(this.hql);
-            this.query.setFirstResult(0);
-            this.query.setMaxResults(10);
+//            this.query.setFirstResult(0);
+//            this.query.setMaxResults(10);
             this.resultList = this.query.list();
             this.transaction.commit();
         } catch (Exception e) {
@@ -50,5 +50,31 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
         }
         
         return this.resultList;
+    }
+    
+    public List selectTest(){
+        
+        this.session = SESSION_FACTORY.openSession();
+        this.transaction = null;
+        List list = null;
+        try {
+            
+            this.transaction = this.session.beginTransaction();
+            this.hql = "SELECT UA.username FROM UserAuthentication UA";
+            this.query = this.session.createQuery(this.hql);
+            list = this.query.list();
+            this.transaction.commit();
+        } catch (Exception e) {
+            
+            if(this.transaction!=null){
+                
+                this.transaction.rollback();
+            }
+        }finally{
+            
+            this.session.close();
+        }
+        
+        return list;
     }
 }
