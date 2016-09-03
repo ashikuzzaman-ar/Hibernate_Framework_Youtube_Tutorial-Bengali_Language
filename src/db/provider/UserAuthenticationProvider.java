@@ -61,7 +61,7 @@ public class UserAuthenticationProvider implements SessionFactoryProvider{
         try {
             
             this.transaction = this.session.beginTransaction();
-            this.hql = "FROM UserAuthentication UA WHERE UA.username LIKE 'Username 13%' ORDER BY UA.id DESC";
+            this.hql = "FROM UserAuthentication UA WHERE UA.username LIKE 'Username 13%' GROUP BY UA.username";
             this.query = this.session.createQuery(this.hql);
             this.resultList = this.query.list();
             this.transaction.commit();
